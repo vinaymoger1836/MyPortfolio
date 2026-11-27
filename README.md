@@ -6,7 +6,7 @@ The personal portfolio of **Vinayakumar Moger**, a software developer in Bengalu
 
 I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Engineer) and **freelance projects**. Reach me at vinaymoger1836@gmail.com or through the contact form on the site.
 
-> **Status:** Phase 1. Every home-page section renders statically from the content files in `src/content/`. Motion lands in Phase 2, case-study pages in Phase 3, and the contact form wiring in Phase 4 (until then the form opens a prefilled email).
+> **Status:** Phase 2. Every home-page section renders from the content files in `src/content/`, with scroll reveals, hover effects and smooth scrolling (all off or reduced to fades under reduced motion). Case-study pages land in Phase 3 and the contact form wiring in Phase 4 (until then the form opens a prefilled email).
 
 ---
 
@@ -23,7 +23,7 @@ I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Enginee
 |---|---|
 | Framework | Next.js (App Router), TypeScript, statically prerendered |
 | Styling | Tailwind CSS v4, CSS-variable design tokens (dark/light, lime/violet accent presets) |
-| Motion | Motion (`motion/react`), Lenis smooth scroll, View Transitions API |
+| Motion | CSS animations + small handlers (Web Animations API for the filter reflow), Lenis smooth scroll, View Transitions API |
 | Content | Typed TypeScript files validated with zod |
 | Contact | Web3Forms (client-side), with a mailto fallback |
 | Quality | ESLint, `tsc`, Playwright smoke tests, axe, Lighthouse CI |
@@ -47,6 +47,7 @@ pnpm dev                        # http://localhost:3000
 | `pnpm build` | Production build (fails if content is invalid) |
 | `pnpm start` | Serve the production build on port 3000 |
 | `pnpm lint` / `pnpm typecheck` | Lint and type-check |
+| `pnpm size` | Home-page JS (gzipped) against the budget; fails if over (run `pnpm build` first) |
 | `pnpm test:e2e` | Playwright smoke tests against the production build (run `pnpm build` first) |
 
 Before the first e2e run, download the test browser once: `pnpm exec playwright install chromium`.

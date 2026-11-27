@@ -178,6 +178,13 @@ function useActiveSection(ids: string[]) {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) setActive(entry.target.id);
+          // Back above the first section (in the hero): nothing is current.
+          else if (
+            entry.target === targets[0] &&
+            entry.boundingClientRect.top > (entry.rootBounds?.top ?? 0)
+          ) {
+            setActive(null);
+          }
         }
       },
       // A thin band around 40% from the top: one section at a time.
