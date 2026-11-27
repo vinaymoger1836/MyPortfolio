@@ -18,15 +18,27 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "desktop",
+      testIgnore: /perf.spec.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
     {
       name: "mobile-360",
+      testIgnore: /perf.spec.ts/,
       use: {
         ...devices["Desktop Chrome"],
         viewport: { width: 360, height: 780 },
         isMobile: true,
         hasTouch: true,
       },
+    },
+    // Timing-sensitive: runs alone, after the functional tests.
+    {
+      name: "perf",
+      testMatch: /perf.spec.ts/,
+      dependencies: ["desktop", "mobile-360"],
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
   webServer: {
