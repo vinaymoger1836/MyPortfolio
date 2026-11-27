@@ -1,3 +1,4 @@
+import { profile } from "./profile";
 import { defineContent, siteSchema } from "./schema";
 
 // Site-wide settings and all interface microcopy (components hold no strings).
@@ -5,7 +6,7 @@ export const site = defineContent(
   siteSchema,
   {
     url: "https://vinayakumar-moger.vercel.app",
-    title: "Vinayakumar Moger · Software Developer",
+    title: `${profile.name} · Software Developer`,
     description:
       "Software Developer in Bengaluru. I build Python backends and GenAI systems (RAG, agents and integrations) that hold up in production.",
     accent: "lime",

@@ -6,7 +6,7 @@ The personal portfolio of **Vinayakumar Moger**, a software developer in Bengalu
 
 I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Engineer) and **freelance projects**. Reach me at vinaymoger1836@gmail.com or through the contact form on the site.
 
-> **Status:** Phase 0. The live URL shows a placeholder page (name + "coming soon", dark/light toggle) while the sections below are built. The content files under `src/content/` are filled in from Phase 1.
+> **Status:** Phase 1. Every home-page section renders statically from the content files in `src/content/`. Motion lands in Phase 2, case-study pages in Phase 3, and the contact form wiring in Phase 4 (until then the form opens a prefilled email).
 
 ---
 
@@ -66,13 +66,15 @@ All text, links and numbers live in **`src/content/`**, so you never need to edi
 | `services.ts` | The "What I can help with" section |
 | `interests.ts` | Interests |
 | `testimonials.ts` | Testimonials (the section hides when empty) |
-| `site.ts` | Site URL, SEO, accent preset (`'lime'` or `'violet'`), contact provider |
+| `sections.ts` | Section order, nav labels and headings |
+| `site.ts` | Site URL, SEO, accent preset (`'lime'` or `'violet'`), contact provider, interface labels |
 
 Common edits:
 - **A project goes live:** in `projects.ts`, change its `live: 'coming-soon'` to the URL.
 - **Add a photo:** put it in `public/images/profile/` and set `photo` in `profile.ts`.
 - **Update the resume:** replace `public/resume.pdf`.
 - **Switch the accent:** change `accent` in `site.ts`.
+- **Hide a section:** empty its array (for example `testimonials.ts`); it disappears from the page and the nav, and the section numbers close up.
 
 Every content file is validated at build time, so a typo or a missing `alt` text fails the build with a clear message instead of breaking the page.
 

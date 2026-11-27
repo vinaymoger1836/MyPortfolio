@@ -81,13 +81,13 @@ export function ProjectCard({
           {project.stack.slice(0, STACK_PREVIEW).map((s) => (
             <li
               key={s}
-              className="rounded-full border border-border bg-surface-2 px-2.5 py-1 font-mono text-xs leading-tight"
+              className="rounded-lg border border-border bg-surface-2 px-2.5 py-1 font-mono text-xs leading-tight"
             >
               {s}
             </li>
           ))}
           {extraStack > 0 && (
-            <li className="rounded-full border border-border px-2.5 py-1 font-mono text-xs leading-tight text-muted">
+            <li className="rounded-lg border border-border px-2.5 py-1 font-mono text-xs leading-tight text-muted">
               +{extraStack}
             </li>
           )}
