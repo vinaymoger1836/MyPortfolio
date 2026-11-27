@@ -1,0 +1,58 @@
+# --- Private working docs (local only, never pushed) ---
+claude-code-handoff.md
+CLAUDE.md
+docs/
+.claude/
+
+# --- Secrets & env ---
+.env*
+!.env.example
+*.pem
+*.key
+
+# --- Dependencies ---
+node_modules/
+.pnpm-store/
+
+# --- Next.js / build output ---
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Vercel ---
+.vercel
+
+# --- Testing ---
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+
+# --- Lighthouse reports ---
+.lighthouseci/
+lighthouse-*.html
+lighthouse-*.json
+*.lighthouse.html
+*.lighthouse.json
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# --- Scratch / misc ---
+*.local
+*.bak
+*.tmp
