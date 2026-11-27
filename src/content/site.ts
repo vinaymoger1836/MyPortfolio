@@ -1,18 +1,110 @@
-// Site-wide settings. The zod schema and the remaining fields (url, contact, …) land in Phase 1.
-export type Accent = "lime" | "violet";
+import { defineContent, siteSchema } from "./schema";
 
-export const site = {
-  title: "Vinayakumar Moger · Software Developer",
-  description:
-    "Software Developer in Bengaluru. I build Python backends and GenAI systems (RAG, agents and integrations) that hold up in production.",
-  accent: "lime" as Accent,
-  ui: {
-    themeToggle: "Toggle light and dark theme",
+// Site-wide settings and all interface microcopy (components hold no strings).
+export const site = defineContent(
+  siteSchema,
+  {
+    url: "https://vinayakumar-moger.vercel.app",
+    title: "Vinayakumar Moger · Software Developer",
+    description:
+      "Software Developer in Bengaluru. I build Python backends and GenAI systems (RAG, agents and integrations) that hold up in production.",
+    accent: "lime",
+    // P4 switches this to Web3Forms (key from NEXT_PUBLIC_WEB3FORMS_KEY); mailto until then.
+    contact: { provider: "mailto" },
+    ui: {
+      skipToContent: "Skip to content",
+      themeToggle: "Toggle light and dark theme",
+      primaryNav: "Primary",
+      menuOpen: "Open menu",
+      menuClose: "Close menu",
+      hireMe: "Hire me",
+      hero: {
+        viewWork: "View work",
+        downloadCv: "Download CV",
+        contact: "Contact",
+        socialsLabel: "Profiles",
+      },
+      about: {
+        locationLabel: "Based in",
+        lookingForLabel: "What I'm looking for",
+        availabilityLabel: "Availability",
+        fullTime: "Full-time",
+        freelance: "Freelance",
+        remote: "Remote",
+        factsLabel: "Quick facts",
+        photoFallbackLabel: "Monogram",
+      },
+      skills: {
+        core: "Core",
+        familiar: "Familiar",
+        legendLabel: "Legend",
+        marqueeLabel: "Main tech",
+      },
+      projects: {
+        filterLabel: "Filter projects by tag",
+        all: "All",
+        featuredLabel: "Featured",
+        moreLabel: "More projects",
+        showing: "Showing {count} projects",
+        empty: "No projects with this tag yet.",
+        status: {
+          live: "Live",
+          "in-progress": "In progress",
+          "design-case-study": "Design case study",
+        },
+        liveDemo: "Live demo",
+        comingSoon: "Live demo coming soon",
+        code: "Code",
+        stackLabel: "Stack",
+        opensInNewTab: "(opens in a new tab)",
+      },
+      experience: {
+        showMore: "Show more",
+        stackLabel: "Stack",
+        educationLabel: "Education",
+        certificationsLabel: "Certifications",
+        verify: "Verify",
+        present: "Present",
+      },
+      services: {
+        includesLabel: "What's included",
+        proofLabel: "Proof",
+        engagementLabel: "Engagement",
+        engagement: {
+          fixed: "Fixed scope",
+          hourly: "Hourly",
+          retainer: "Retainer",
+        },
+        cta: "Let's talk",
+      },
+      contact: {
+        emailLabel: "Email",
+        copyEmail: "Copy email",
+        copied: "Email copied",
+        copyFailed: "Couldn't copy. Select the address instead.",
+        socialsLabel: "Elsewhere",
+        formLabel: "Contact form",
+        name: "Name",
+        email: "Email",
+        type: "Type",
+        types: { job: "Job", freelance: "Freelance", other: "Other" },
+        message: "Message",
+        submit: "Send message",
+        required: "required",
+        errors: {
+          name: "Please enter your name.",
+          email: "Please enter a valid email address.",
+          message: "Please write a short message.",
+        },
+        mailSubject: "{type} enquiry from {name}",
+        mailtoNote: "Sending opens your email app with the message filled in.",
+      },
+      footer: {
+        builtWith: "Built with Next.js · hosted on Vercel",
+        lastUpdated: "Last updated",
+        backToTop: "Back to top",
+      },
+    },
   },
-  // Phase 0 placeholder page only; removed when the real sections land.
-  placeholder: {
-    label: "00 / Status",
-    lead: "Portfolio coming",
-    emphasis: "soon",
-  },
-} as const;
+  "site.ts",
+);

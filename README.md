@@ -2,7 +2,7 @@
 
 The personal portfolio of **Vinayakumar Moger**, a software developer in Bengaluru working on Python, GenAI and agentic systems.
 
-**Live:** https://vinayakumar-moger.vercel.app <!-- update if the subdomain differs -->
+**Live:** https://vinayakumar-moger.vercel.app
 
 I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Engineer) and **freelance projects**. Reach me at vinaymoger1836@gmail.com or through the contact form on the site.
 
