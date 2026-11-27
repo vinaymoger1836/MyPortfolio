@@ -30,7 +30,8 @@ export default async function Image({
 
   const accent = ogAccent[site.accent];
   const status = site.ui.projects.status[project.status];
-  const stack = project.stack.slice(0, 5);
+  // One row of chips; very long entries (e.g. an AWS service list) are skipped.
+  const stack = project.stack.filter((s) => s.length <= 28).slice(0, 5);
   // Font subset: every glyph drawn, including the uppercased mono row.
   const text = [project.title, project.tagline, status, profile.name, profile.shortName, "/", ...stack].join(" ");
   const glyphs = `${text}${text.toUpperCase()}`;
@@ -71,7 +72,7 @@ export default async function Image({
           </div>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontFamily: "Geist Mono", fontSize: 20 }}>
+        <div style={{ display: "flex", gap: 10, maxWidth: 960, overflow: "hidden", fontFamily: "Geist Mono", fontSize: 20 }}>
           {stack.map((s) => (
             <div key={s} style={{ display: "flex", padding: "8px 16px", borderRadius: 10, border: `1px solid ${t.border}`, background: t.surface2, color: t.text }}>
               {s}
