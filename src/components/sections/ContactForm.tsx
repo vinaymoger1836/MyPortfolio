@@ -11,7 +11,7 @@ type Field = "name" | "email" | "message";
 type Errors = Partial<Record<Field, string>>;
 
 const inputClass =
-  "mt-2 block w-full rounded-xl border border-border bg-surface px-4 py-3 text-text placeholder:text-muted focus-visible:border-accent aria-[invalid=true]:border-red-500";
+  "mt-2 block w-full rounded-xl border border-border bg-surface px-4 py-3 text-text placeholder:text-muted focus-visible:border-accent aria-[invalid=true]:border-danger";
 
 /**
  * Contact form, P1 version: native constraints plus inline messages, then a
@@ -117,7 +117,7 @@ export function ContactForm({ email, labels }: { email: string; labels: Labels }
                 name="type"
                 value={t.value}
                 defaultChecked={i === 0}
-                className="size-4 accent-[var(--accent)] focus-visible:outline-none"
+                className="size-4 accent-accent focus-visible:outline-none"
               />
               {t.label}
             </label>
@@ -157,7 +157,7 @@ export function ContactForm({ email, labels }: { email: string; labels: Labels }
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-2 text-sm text-red-600 dark:text-red-400">
+    <p id={id} className="mt-2 text-sm text-danger">
       {message}
     </p>
   );

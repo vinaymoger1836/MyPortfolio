@@ -14,6 +14,7 @@
   --border: #262a31;
   --text: #ecedee;
   --muted: #8a9099;
+  --danger: #f87171; /* form errors only */
 
   /* Fallback accent (lime) if no preset attribute is present */
   --accent: #c6f135;
@@ -28,6 +29,7 @@
   --border: #e4e2da;
   --text: #141518;
   --muted: #5e636b;
+  --danger: #b91c1c;
 
   --accent: #4a780e;
   --accent-ink: #ffffff;

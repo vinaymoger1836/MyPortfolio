@@ -1,32 +1,57 @@
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { About } from "@/components/sections/About";
+import { Contact } from "@/components/sections/Contact";
+import { Experience } from "@/components/sections/Experience";
+import { Footer } from "@/components/sections/Footer";
+import { Hero } from "@/components/sections/Hero";
+import { Interests } from "@/components/sections/Interests";
+import { Projects } from "@/components/sections/Projects";
+import { Services } from "@/components/sections/Services";
+import { Skills } from "@/components/sections/Skills";
+import { Testimonials } from "@/components/sections/Testimonials";
+import { Nav } from "@/components/ui/Nav";
 import { profile } from "@/content/profile";
 import { site } from "@/content/site";
+import { visibleSections } from "@/lib/sections";
 
+// Sections in handoff §3 order. Each one hides itself when its content is empty.
 export default function Home() {
-  const { label, lead, emphasis } = site.placeholder;
+  const { ui } = site;
+  const links = visibleSections
+    .filter((s) => s.navLabel)
+    .map((s) => ({ id: s.id, label: s.navLabel ?? s.label }));
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 py-5 sm:px-6 md:px-8">
-        <span className="font-mono text-sm font-medium tracking-[0.2em] text-text">
-          {profile.shortName}
-        </span>
-        <ThemeToggle label={site.ui.themeToggle} />
-      </header>
-
-      <main className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-center px-4 pt-10 pb-24 sm:px-6 md:px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-          {label}
-        </p>
-        <h1 className="mt-6 text-[clamp(3rem,9vw,8rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-balance">
-          {profile.name}
-        </h1>
-        <p className="mt-6 max-w-[65ch] text-muted">{profile.role}</p>
-        <p className="mt-12 text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-tight">
-          {lead}{" "}
-          <em className="font-serif font-normal text-accent">{emphasis}</em>
-        </p>
+    <>
+      <a
+        href="#main"
+        className="sr-only z-50 rounded-full bg-accent px-4 py-2 font-medium text-accent-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >
+        {ui.skipToContent}
+      </a>
+      <Nav
+        name={profile.name}
+        shortName={profile.shortName}
+        links={links}
+        labels={{
+          primaryNav: ui.primaryNav,
+          hireMe: ui.hireMe,
+          themeToggle: ui.themeToggle,
+          menuOpen: ui.menuOpen,
+          menuClose: ui.menuClose,
+        }}
+      />
+      <main id="main" tabIndex={-1} className="focus:outline-none">
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Services />
+        <Interests />
+        <Testimonials />
+        <Contact />
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
