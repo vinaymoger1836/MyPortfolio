@@ -3,9 +3,6 @@
 import { useEffect } from "react";
 import { prefersReducedMotion } from "./useReducedMotionSafe";
 
-/** Space for the sticky nav when scrolling to an anchor. */
-const ANCHOR_OFFSET = -80;
-
 type LenisInstance = InstanceType<typeof import("lenis").default>;
 
 /**
@@ -48,7 +45,9 @@ export function SmoothScroll() {
       const target = document.getElementById(decodeURIComponent(hash.slice(1)));
       if (!target || !lenis) return;
       if (hash === "#top") lenis.scrollTo(0);
-      else lenis.scrollTo(target, { offset: ANCHOR_OFFSET });
+      // Lenis honours the target's scroll-margin-top (globals.css), which
+      // already clears the sticky nav, as a native jump would.
+      else lenis.scrollTo(target);
       // Keyboard users continue tabbing from the target, as with a native jump.
       if (keyboard) {
         if (!target.hasAttribute("tabindex")) {
