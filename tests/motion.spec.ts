@@ -65,6 +65,10 @@ test("touch devices get no tilt", async ({ page, isMobile }) => {
 
   const card = page.locator("#projects article").first();
   await card.scrollIntoViewIfNeeded();
+  // The whole card links to its case study (P3); stay on the page.
+  await page.evaluate(() =>
+    document.addEventListener("click", (e) => e.preventDefault(), { capture: true }),
+  );
   await card.tap({ position: { x: 20, y: 20 } });
   // TiltCard is the article's grandparent (TiltCard > SpotlightCard > article).
   const transform = await card.evaluate(
