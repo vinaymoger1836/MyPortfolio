@@ -24,6 +24,7 @@ export const site = defineContent(
         downloadCv: "Download CV",
         contact: "Contact",
         socialsLabel: "Profiles",
+        scrollCue: "Scroll to the next section",
       },
       about: {
         locationLabel: "Based in",

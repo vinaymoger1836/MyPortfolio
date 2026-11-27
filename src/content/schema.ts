@@ -369,6 +369,7 @@ export const siteSchema = z.object({
       downloadCv: text,
       contact: text,
       socialsLabel: text,
+      scrollCue: text,
     }),
     about: z.object({
       locationLabel: text,

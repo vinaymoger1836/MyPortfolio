@@ -4,6 +4,7 @@ import type { Experience as Entry } from "@/content/schema";
 import { site } from "@/content/site";
 import { Section } from "@/components/ui/Section";
 import { Chip } from "@/components/ui/Chip";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function Experience() {
   const ui = site.ui.experience;
@@ -12,7 +13,7 @@ export function Experience() {
   return (
     <Section id="experience">
       {entries.length > 0 && (
-        <ol className="relative ml-4 space-y-12 border-l border-border pl-8 md:ml-[1.125rem] md:pl-10">
+        <ol className="timeline relative ml-4 space-y-12 border-l border-border pl-8 md:ml-[1.125rem] md:pl-10">
           {entries.map((entry) => (
             <TimelineEntry key={`${entry.org}-${entry.title}`} entry={entry} />
           ))}
@@ -25,31 +26,30 @@ export function Experience() {
             {ui.certificationsLabel}
           </h3>
           <ul className="mt-5 grid gap-4 sm:grid-cols-2">
-            {certifications.map((cert) => (
-              <li
-                key={cert.name}
-                className="flex flex-col rounded-2xl border border-border bg-surface p-5"
-              >
-                <p className="font-semibold tracking-tight">{cert.name}</p>
-                <p className="mt-1 font-mono text-xs text-muted">
-                  {cert.issuer} · {cert.year}
-                </p>
-                {cert.url && (
-                  <a
-                    href={cert.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-medium text-accent hover:underline"
-                  >
-                    {ui.verify}
-                    <span className="sr-only">
-                      {" "}
-                      {cert.name} {site.ui.projects.opensInNewTab}
-                    </span>
-                    <ArrowUpRight className="size-4" aria-hidden="true" />
-                  </a>
-                )}
-              </li>
+            {certifications.map((cert, i) => (
+              <Reveal as="li" index={i} key={cert.name}>
+                <div className="card-lift flex h-full flex-col rounded-2xl border border-border bg-surface p-5">
+                  <p className="font-semibold tracking-tight">{cert.name}</p>
+                  <p className="mt-1 font-mono text-xs text-muted">
+                    {cert.issuer} · {cert.year}
+                  </p>
+                  {cert.url && (
+                    <a
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-medium text-accent hover:underline"
+                    >
+                      {ui.verify}
+                      <span className="sr-only">
+                        {" "}
+                        {cert.name} {site.ui.projects.opensInNewTab}
+                      </span>
+                      <ArrowUpRight className="size-4" aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              </Reveal>
             ))}
           </ul>
         </div>
@@ -67,7 +67,7 @@ function TimelineEntry({ entry }: { entry: Entry }) {
   const meta = [dates, entry.location].filter(Boolean).join(" · ");
 
   return (
-    <li className="relative">
+    <Reveal as="li" dir="left" className="relative">
       <span
         aria-hidden="true"
         className="absolute top-1 -left-12 grid size-8 place-items-center rounded-lg border border-border bg-surface font-mono text-sm text-text md:-left-[3.625rem] md:size-9"
@@ -118,6 +118,6 @@ function TimelineEntry({ entry }: { entry: Entry }) {
           ))}
         </ul>
       )}
-    </li>
+    </Reveal>
   );
 }

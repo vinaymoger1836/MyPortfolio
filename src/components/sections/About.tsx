@@ -2,6 +2,8 @@ import { Check, MapPin } from "lucide-react";
 import Image from "next/image";
 import { profile } from "@/content/profile";
 import { site } from "@/content/site";
+import { Counter } from "@/components/ui/Counter";
+import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 
 export function About() {
@@ -16,11 +18,11 @@ export function About() {
   return (
     <Section id="about">
       <div className="grid gap-10 md:grid-cols-12 md:gap-12">
-        <div className="md:col-span-4">
+        <Reveal className="md:col-span-4">
           <Portrait />
-        </div>
+        </Reveal>
 
-        <div className="md:col-span-8">
+        <Reveal index={1} className="md:col-span-8">
           <div className="max-w-[65ch] space-y-5 text-pretty">
             {profile.bio.map((p) => (
               <p key={p.slice(0, 32)}>{p}</p>
@@ -69,22 +71,20 @@ export function About() {
               </div>
             )}
           </dl>
-        </div>
+        </Reveal>
       </div>
 
       {profile.facts.length > 0 && (
         <div className="mt-14">
           <h3 className="sr-only">{ui.factsLabel}</h3>
           <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-4">
-            {profile.facts.map((fact) => (
-              <li key={fact.label} className="bg-surface p-5 md:p-7">
+            {profile.facts.map((fact, i) => (
+              <Reveal as="li" index={i} key={fact.label} className="bg-surface p-5 md:p-7">
                 <p className="font-mono text-[clamp(1.75rem,4vw,2.75rem)] font-medium leading-none tracking-tight text-text">
-                  {fact.prefix}
-                  {fact.value}
-                  {fact.suffix}
+                  <Counter value={fact.value} prefix={fact.prefix} suffix={fact.suffix} />
                 </p>
                 <p className="mt-3 text-sm text-muted text-pretty">{fact.label}</p>
-              </li>
+              </Reveal>
             ))}
           </ul>
         </div>

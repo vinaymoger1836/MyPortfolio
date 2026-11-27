@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { cx } from "@/lib/utils";
 import { MobileMenu } from "./MobileMenu";
 import { ThemeToggle } from "./ThemeToggle";
@@ -17,7 +17,9 @@ export type NavLabels = {
 
 /**
  * Sticky header with anchor links. An IntersectionObserver marks the section
- * in the middle of the viewport as current (P2 adds the sliding indicator).
+ * in the middle of the viewport as current, and an accent bar slides to it.
+ * After a little scroll the bar turns to glass; it slides away while
+ * scrolling down and comes back on scroll up or when it holds focus.
  */
 export function Nav({
   name,
@@ -31,12 +33,11 @@ export function Nav({
   labels: NavLabels;
 }) {
   const active = useActiveSection(links.map((l) => l.id));
+  const headerRef = useRef<HTMLElement>(null);
+  useScrollState(headerRef);
 
   return (
-    <header
-      id="top"
-      className="sticky top-0 z-40 border-b border-border/70 bg-bg/95"
-    >
+    <header ref={headerRef} id="top" className="site-header sticky top-0 z-40 border-b">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <a
           href="#top"
@@ -53,7 +54,7 @@ export function Nav({
           </span>
         </a>
 
-        <nav aria-label={labels.primaryNav} className="hidden lg:block">
+        <nav aria-label={labels.primaryNav} className="relative hidden lg:block">
           <ul className="flex items-center gap-1">
             {links.map((link) => (
               <li key={link.id}>
@@ -72,6 +73,7 @@ export function Nav({
               </li>
             ))}
           </ul>
+          <ActiveBar active={active} />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -87,6 +89,77 @@ export function Nav({
       </div>
     </header>
   );
+}
+
+/**
+ * Accent bar under the current link. It replaces Motion's `layoutId`: it reads
+ * the link's box once per change and moves with transform only, on a spring
+ * easing shared through CSS (`--ease-spring`). Instant under reduced motion.
+ */
+function ActiveBar({ active }: { active: string | null }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const shown = useRef(false);
+
+  useLayoutEffect(() => {
+    const bar = ref.current;
+    const nav = bar?.parentElement;
+    if (!bar || !nav) return;
+
+    const place = (animate: boolean) => {
+      const link = active
+        ? nav.querySelector<HTMLElement>(`a[href="#${CSS.escape(active)}"]`)
+        : null;
+      if (!link) {
+        bar.style.opacity = "0";
+        shown.current = false;
+        return;
+      }
+      // Base width is 100px; scaleX stretches it to the link's text box.
+      const inset = 12;
+      const width = Math.max(link.offsetWidth - inset * 2, 0);
+      bar.classList.toggle("no-transition", !animate || !shown.current);
+      bar.style.transform = `translateX(${link.offsetLeft + inset}px) scaleX(${width / 100})`;
+      bar.style.opacity = "1";
+      shown.current = true;
+    };
+
+    place(true);
+    // Fonts swapping in or a resize change link widths.
+    const ro = new ResizeObserver(() => place(false));
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, [active]);
+
+  return <span ref={ref} aria-hidden="true" className="nav-bar" />;
+}
+
+/** Glass after 8px of scroll; hide on the way down, show on the way up. */
+function useScrollState(ref: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const header = ref.current;
+    if (!header) return;
+    let lastY = window.scrollY;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      header.toggleAttribute("data-scrolled", y > 8);
+      if (y > lastY + 4 && y > 120) header.setAttribute("data-hidden", "");
+      else if (y < lastY - 4 || y <= 120) header.removeAttribute("data-hidden");
+      lastY = y;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [ref]);
 }
 
 /** Id of the section crossing the middle band of the viewport, if any. */

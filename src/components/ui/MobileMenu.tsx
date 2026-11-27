@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import { cx } from "@/lib/utils";
 import type { NavLabels, NavLink } from "./Nav";
 
@@ -40,6 +40,7 @@ export function MobileMenu({
         ref={ref}
         id={MENU_ID}
         popover="auto"
+        data-lenis-prevent=""
         className="m-0 hidden h-dvh border-0 max-h-none w-full max-w-none flex-col overflow-y-auto bg-bg p-0 text-text open:flex lg:open:hidden"
       >
         <div className="container-page flex h-16 shrink-0 items-center justify-end">
@@ -55,8 +56,8 @@ export function MobileMenu({
         </div>
         <nav aria-label={labels.primaryNav} className="container-page flex-1 pt-6 pb-10">
           <ul className="flex flex-col gap-1">
-            {links.map((link) => (
-              <li key={link.id}>
+            {links.map((link, i) => (
+              <li key={link.id} className="menu-item" style={{ "--i": i } as CSSProperties}>
                 <a
                   href={`#${link.id}`}
                   onClick={close}
@@ -74,7 +75,8 @@ export function MobileMenu({
           <a
             href="#contact"
             onClick={close}
-            className="mt-10 inline-flex min-h-12 items-center rounded-full bg-accent px-6 font-medium text-accent-ink"
+            style={{ "--i": links.length } as CSSProperties}
+            className="menu-item mt-10 inline-flex min-h-12 items-center rounded-full bg-accent px-6 font-medium text-accent-ink"
           >
             {labels.hireMe}
           </a>

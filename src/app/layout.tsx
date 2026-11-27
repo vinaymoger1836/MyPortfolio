@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { motionCssVars } from "@/components/motion/cssVars";
+import { RevealObserver } from "@/components/motion/RevealObserver";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { site } from "@/content/site";
 import "@/styles/globals.css";
 
@@ -36,10 +39,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-accent={site.accent}
       suppressHydrationWarning
+      style={motionCssVars}
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
     >
       <body className="min-h-dvh bg-bg font-sans text-text">
         <ThemeProvider>{children}</ThemeProvider>
+        <RevealObserver />
+        <SmoothScroll />
       </body>
     </html>
   );
