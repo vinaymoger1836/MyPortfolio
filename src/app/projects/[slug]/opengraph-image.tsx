@@ -11,28 +11,13 @@ import { fill } from "@/lib/utils";
  * system as the typographic covers: title in display type, tagline, stack
  * chips and an accent stroke on the dark surface.
  */
-const size = { width: 1200, height: 630 };
-
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateImageMetadata({
-  params,
-}: {
-  params: { slug: string } | Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const project = getProject(slug);
-  return [
-    {
-      id: "card",
-      size,
-      contentType: "image/png",
-      alt: fill(site.ui.caseStudy.ogAlt, { title: project?.title ?? slug }),
-    },
-  ];
-}
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+export const alt = fill(site.ui.caseStudy.ogAlt, { name: profile.name });
 
 export default async function Image({
   params,

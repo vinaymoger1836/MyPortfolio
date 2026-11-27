@@ -435,7 +435,7 @@ export const siteSchema = z.object({
       previous: text,
       next: text,
       demoVideo: text,
-      /** "{title}" is replaced with the project title. */
+      /** Share-image alt text; "{name}" is replaced with the owner's name. */
       ogAlt: text,
       lightbox: z.object({
         label: text,

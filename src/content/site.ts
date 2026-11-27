@@ -79,7 +79,7 @@ export const site = defineContent(
         previous: "Previous project",
         next: "Next project",
         demoVideo: "Demo video",
-        ogAlt: "{title}: case study",
+        ogAlt: "Project case study by {name}",
         lightbox: {
           label: "Image viewer",
           close: "Close image viewer",
