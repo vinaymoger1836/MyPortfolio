@@ -552,6 +552,54 @@ html.reveal-ready [data-reveal="left"]:not(.is-in) {
   }
 }
 
+/* --- Page transitions (cross-document View Transitions) --------------- */
+/* Every same-origin navigation crossfades. The case-study hero cover is
+   named so the home card cover (named by viewTransitionScript.ts) morphs
+   into it; under reduced motion nothing is named and only the fade runs. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .case-cover {
+    view-transition-name: project-cover;
+  }
+  .site-header {
+    view-transition-name: site-header;
+  }
+  ::view-transition-group(project-cover) {
+    animation-duration: 450ms;
+    animation-timing-function: var(--ease-out);
+  }
+  ::view-transition-group(site-header) {
+    animation-duration: 250ms;
+  }
+}
+/* No View Transitions: a plain fade-in on case-study pages instead. */
+@supports not (view-transition-name: none) {
+  .page-fade {
+    animation: fade-in 300ms var(--ease-out) both;
+  }
+}
+
+/* --- Lightbox ------------------------------------------------------------ */
+html:has(dialog.lightbox[open]) {
+  overflow: hidden;
+}
+dialog.lightbox[open] {
+  display: block;
+  animation: fade-in 200ms var(--ease-out);
+}
+dialog.lightbox::backdrop {
+  animation: fade-in 200ms var(--ease-out);
+}
+.lightbox-image {
+  animation: fade-in 250ms var(--ease-out);
+}
+
 /* =====================================================================
    Reduced motion: nothing moves. Reveals, the hero sequence and the menu
    keep a plain opacity fade; everything else is static.

@@ -4,6 +4,10 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { motionCssVars } from "@/components/motion/cssVars";
 import { RevealObserver } from "@/components/motion/RevealObserver";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import {
+  speculationRules,
+  viewTransitionScript,
+} from "@/components/motion/viewTransitionScript";
 import { site } from "@/content/site";
 import "@/styles/globals.css";
 
@@ -42,6 +46,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       style={motionCssVars}
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
     >
+      <head>
+        {/* Must run before first render to catch `pagereveal`. */}
+        <script dangerouslySetInnerHTML={{ __html: viewTransitionScript }} />
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{ __html: speculationRules }}
+        />
+      </head>
       <body className="min-h-dvh bg-bg font-sans text-text">
         <ThemeProvider>{children}</ThemeProvider>
         <RevealObserver />
