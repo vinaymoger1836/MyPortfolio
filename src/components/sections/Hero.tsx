@@ -89,19 +89,19 @@ export function Hero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
-          <span className="hero-in" style={at(T.ctas)}>
+          <span className="hero-in inline-block" style={at(T.ctas)}>
             <MagneticButton href="#projects">
               {ui.viewWork}
               <ArrowUpRight className="size-4 rotate-90" aria-hidden="true" />
             </MagneticButton>
           </span>
-          <span className="hero-in" style={at(T.ctas + STAGGER.children)}>
+          <span className="hero-in inline-block" style={at(T.ctas + STAGGER.children)}>
             <ButtonLink href={profile.resumeUrl} download variant="outline">
               <Download className="size-4" aria-hidden="true" />
               {ui.downloadCv}
             </ButtonLink>
           </span>
-          <span className="hero-in" style={at(T.ctas + STAGGER.children * 2)}>
+          <span className="hero-in inline-block" style={at(T.ctas + STAGGER.children * 2)}>
             <ButtonLink href="#contact" variant="ghost">
               {ui.contact}
             </ButtonLink>
