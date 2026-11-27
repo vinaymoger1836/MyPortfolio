@@ -1,7 +1,8 @@
 import { defineContent, projectsSchema } from "./schema";
 
 // Source: docs/content.md §5. Featured order: Automiq, Lumina, AskDB, URLGen.
-// Grid order: Map.io, Imagify, TaskFlow. Covers arrive in P5.
+// Grid order: Map.io, Imagify, TaskFlow. Covers arrive in P5. Gallery images
+// (P3) are real screenshots of the live apps, from docs/gallery-capture.mjs.
 export const projects = defineContent(
   projectsSchema,
   [
@@ -83,6 +84,13 @@ export const projects = defineContent(
         live: "https://huggingface.co/spaces/vinnu18/lumina",
         repo: "https://github.com/vinaymoger1836/Lumina",
       },
+      gallery: [
+        {
+          src: "/images/projects/lumina/01.jpg",
+          alt: "Lumina's Q&A view: a question about how Lumina finds relevant passages, a cited answer, and the expanded sources list with page numbers and similarity scores, all from one scoped PDF.",
+          caption: "Q&A scoped to one document, with inline citations and sources.",
+        },
+      ],
       problem:
         "Plain vector search misses exact strings like error codes, version numbers and rare names, and most RAG demos never measure whether answers are actually grounded.",
       approach: [
@@ -138,6 +146,13 @@ export const projects = defineContent(
         live: "https://huggingface.co/spaces/vinnu18/AskDB",
         repo: "https://github.com/vinaymoger1836/AskDB",
       },
+      gallery: [
+        {
+          src: "/images/projects/askdb/01.jpg",
+          alt: "AskDB's start screen: a sidebar to upload a CSV or Excel file or use the demo e-commerce database, and five sample questions such as “Show monthly revenue in 2023”.",
+          caption: "Start screen: bring your own CSV/Excel or query the demo database.",
+        },
+      ],
       problem:
         "Letting an LLM write SQL against real data is risky, because one bad query can write, drop or scan everything.",
       approach: [
@@ -238,6 +253,23 @@ export const projects = defineContent(
         live: "https://mapio-xi.vercel.app/",
         repo: "https://github.com/vinaymoger1836/Map.io",
       },
+      gallery: [
+        {
+          src: "/images/projects/map-io/01.jpg",
+          alt: "Map.io's Situation Map: a dark map of Europe and western Asia with capitals marked, and a layer panel for borders, alliances, energy, military, Arctic, places and waters.",
+          caption: "Situation Map with the layer panel.",
+        },
+        {
+          src: "/images/projects/map-io/02.jpg",
+          alt: "Map.io zoomed in on eastern Ukraine and the Sea of Azov at national detail, with city labels from Kharkiv to Crimea.",
+          caption: "“The Front” view at national detail.",
+        },
+        {
+          src: "/images/projects/map-io/03.jpg",
+          alt: "Map.io's War Games sandbox: a world map with three nations painted in colour, unit markers near Taiwan, and a console of ground, air, naval and other unit types to deploy.",
+          caption: "War Games sandbox: paint nations and deploy units.",
+        },
+      ],
       approach: [
         "Zoom-tiered rendering: rank-based detail so hidden labels don't block visible ones.",
         "Data-driven GeoJSON layers for borders, energy and military.",
@@ -326,6 +358,7 @@ export const projects = defineContent(
   "projects.ts",
 );
 
+/** Home display order: featured first, then the grid. */
 export const featuredProjects = projects
   .filter((p) => p.featured)
   .sort((a, b) => a.order - b.order);
@@ -333,3 +366,21 @@ export const featuredProjects = projects
 export const gridProjects = projects
   .filter((p) => !p.featured)
   .sort((a, b) => a.order - b.order);
+
+/** Every project in home display order (case-study prev/next follows it). */
+export const orderedProjects = [...featuredProjects, ...gridProjects];
+
+export function getProject(slug: string) {
+  return orderedProjects.find((p) => p.slug === slug);
+}
+
+/** Previous and next project, wrapping around at both ends. */
+export function getNeighbours(slug: string) {
+  const i = orderedProjects.findIndex((p) => p.slug === slug);
+  const n = orderedProjects.length;
+  if (i < 0 || n < 2) return null;
+  return {
+    previous: orderedProjects[(i - 1 + n) % n]!,
+    next: orderedProjects[(i + 1) % n]!,
+  };
+}

@@ -26,11 +26,14 @@ export function Nav({
   shortName,
   links,
   labels,
+  base = "",
 }: {
   name: string;
   shortName: string;
   links: NavLink[];
   labels: NavLabels;
+  /** "" on the home page; "/" elsewhere, so links become "/#about". */
+  base?: string;
 }) {
   const active = useActiveSection(links.map((l) => l.id));
   const headerRef = useRef<HTMLElement>(null);
@@ -40,7 +43,7 @@ export function Nav({
     <header ref={headerRef} id="top" className="site-header sticky top-0 z-40 border-b">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <a
-          href="#top"
+          href={base ? "/" : "#top"}
           className="flex min-h-11 items-center gap-3 rounded-md"
         >
           <span
@@ -59,7 +62,7 @@ export function Nav({
             {links.map((link) => (
               <li key={link.id}>
                 <a
-                  href={`#${link.id}`}
+                  href={`${base}#${link.id}`}
                   aria-current={active === link.id ? "location" : undefined}
                   className={cx(
                     "inline-flex min-h-11 items-center rounded-full px-3 text-[0.9375rem] transition-colors",
@@ -73,18 +76,18 @@ export function Nav({
               </li>
             ))}
           </ul>
-          <ActiveBar active={active} />
+          <ActiveBar active={active} base={base} />
         </nav>
 
         <div className="flex items-center gap-2">
           <ThemeToggle label={labels.themeToggle} />
           <a
-            href="#contact"
+            href={`${base}#contact`}
             className="hidden min-h-11 items-center rounded-full bg-accent px-4 text-[0.9375rem] font-medium text-accent-ink hover:bg-accent/90 sm:inline-flex"
           >
             {labels.hireMe}
           </a>
-          <MobileMenu links={links} active={active} labels={labels} />
+          <MobileMenu links={links} active={active} labels={labels} base={base} />
         </div>
       </div>
     </header>
@@ -96,7 +99,7 @@ export function Nav({
  * the link's box once per change and moves with transform only, on a spring
  * easing shared through CSS (`--ease-spring`). Instant under reduced motion.
  */
-function ActiveBar({ active }: { active: string | null }) {
+function ActiveBar({ active, base }: { active: string | null; base: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const shown = useRef(false);
 
@@ -107,7 +110,7 @@ function ActiveBar({ active }: { active: string | null }) {
 
     const place = (animate: boolean) => {
       const link = active
-        ? nav.querySelector<HTMLElement>(`a[href="#${CSS.escape(active)}"]`)
+        ? nav.querySelector<HTMLElement>(`a[href="${base}#${CSS.escape(active)}"]`)
         : null;
       if (!link) {
         bar.style.opacity = "0";
@@ -128,7 +131,7 @@ function ActiveBar({ active }: { active: string | null }) {
     const ro = new ResizeObserver(() => place(false));
     ro.observe(nav);
     return () => ro.disconnect();
-  }, [active]);
+  }, [active, base]);
 
   return <span ref={ref} aria-hidden="true" className="nav-bar" />;
 }

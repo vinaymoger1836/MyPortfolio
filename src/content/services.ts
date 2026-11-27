@@ -3,20 +3,21 @@ import { projects } from "./projects";
 import { defineContent, sectionIds, serviceSchema } from "./schema";
 
 // Source: docs/content.md §7. No paid freelance work yet: this is "what I can help with",
-// never past clients. No prices. Proof links point at home-page anchors until the
-// case-study pages land in P3.
-const validAnchors = new Set<string>([
+// never past clients. No prices. Project proof links open the case study;
+// experience proof links point at the home-page section.
+const validTargets = new Set<string>([
   ...sectionIds.map((id) => `#${id}`),
   ...projects.map((p) => `#project-${p.slug}`),
+  ...projects.map((p) => `/projects/${p.slug}`),
 ]);
 
 const servicesSchema = z.array(serviceSchema).superRefine((services, ctx) => {
   services.forEach((s, i) =>
     s.proof.forEach((p, j) => {
-      if (p.href.startsWith("#") && !validAnchors.has(p.href)) {
+      if (!p.href.startsWith("https://") && !validTargets.has(p.href)) {
         ctx.addIssue({
           code: "custom",
-          message: `proof link "${p.href}" doesn't match any section or project on the page`,
+          message: `proof link "${p.href}" doesn't match any section, project or case study`,
           path: [i, "proof", j, "href"],
         });
       }
@@ -39,8 +40,8 @@ export const services = defineContent(
         "Deploy on free or low-cost infrastructure",
       ],
       proof: [
-        { label: "Lumina", href: "#project-lumina" },
-        { label: "AskDB", href: "#project-askdb" },
+        { label: "Lumina", href: "/projects/lumina" },
+        { label: "AskDB", href: "/projects/askdb" },
         { label: "The MCP server and agent at Zimplistic", href: "#experience" },
       ],
       engagement: ["fixed", "hourly"],
@@ -61,7 +62,7 @@ export const services = defineContent(
           label: "~30 production REST APIs with Shopify integration",
           href: "#experience",
         },
-        { label: "URLGen", href: "#project-urlgen" },
+        { label: "URLGen", href: "/projects/urlgen" },
       ],
       engagement: ["fixed", "hourly"],
     },
@@ -79,7 +80,7 @@ export const services = defineContent(
       proof: [
         { label: "Order-allocation engine (3–6 h → < 30 min)", href: "#experience" },
         { label: "QAConsole", href: "#experience" },
-        { label: "Automiq", href: "#project-automiq" },
+        { label: "Automiq", href: "/projects/automiq" },
       ],
       engagement: ["fixed", "hourly"],
     },

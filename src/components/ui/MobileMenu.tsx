@@ -16,10 +16,12 @@ export function MobileMenu({
   links,
   active,
   labels,
+  base = "",
 }: {
   links: NavLink[];
   active: string | null;
   labels: NavLabels;
+  base?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const close = () => ref.current?.hidePopover?.();
@@ -59,7 +61,7 @@ export function MobileMenu({
             {links.map((link, i) => (
               <li key={link.id} className="menu-item" style={{ "--i": i } as CSSProperties}>
                 <a
-                  href={`#${link.id}`}
+                  href={`${base}#${link.id}`}
                   onClick={close}
                   aria-current={active === link.id ? "location" : undefined}
                   className={cx(
@@ -73,7 +75,7 @@ export function MobileMenu({
             ))}
           </ul>
           <a
-            href="#contact"
+            href={`${base}#contact`}
             onClick={close}
             style={{ "--i": links.length } as CSSProperties}
             className="menu-item mt-10 inline-flex min-h-12 items-center rounded-full bg-accent px-6 font-medium text-accent-ink"

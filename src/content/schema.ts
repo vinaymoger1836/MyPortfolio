@@ -269,11 +269,18 @@ export const serviceSchema = z.object({
   title: text,
   summary: text,
   includes: z.array(text).min(1),
-  /** In-page anchor ("#project-lumina") or an https URL; never a dead link. */
+  /**
+   * Home anchor ("#experience"), case study ("/projects/lumina") or an https
+   * URL; never a dead link (services.ts checks anchors and slugs exist).
+   */
   proof: z.array(
     z.object({
       label: text,
-      href: z.union([z.string().regex(/^#[a-z0-9-]+$/), httpsUrl]),
+      href: z.union([
+        z.string().regex(/^#[a-z0-9-]+$/),
+        z.string().regex(/^\/projects\/[a-z0-9-]+$/),
+        httpsUrl,
+      ]),
     }),
   ),
   engagement: z.array(z.enum(["fixed", "hourly", "retainer"])).min(1),
@@ -405,6 +412,49 @@ export const siteSchema = z.object({
       code: text,
       stackLabel: text,
       opensInNewTab: text,
+    }),
+    /** Case-study pages (/projects/[slug]). */
+    caseStudy: z.object({
+      /** "{title}" and "{name}" are replaced in the page <title>. */
+      metaTitle: text,
+      backToProjects: text,
+      /** Honest label for status 'design-case-study'. */
+      designNote: text,
+      noteLabel: text,
+      meta: z.object({ role: text, timeline: text, team: text }),
+      sections: z.object({
+        problem: text,
+        approach: text,
+        architecture: text,
+        features: text,
+        outcomes: text,
+        gallery: text,
+        stack: text,
+      }),
+      moreProjects: text,
+      previous: text,
+      next: text,
+      demoVideo: text,
+      /** "{title}" is replaced with the project title. */
+      ogAlt: text,
+      lightbox: z.object({
+        label: text,
+        close: text,
+        previous: text,
+        next: text,
+        /** "{n}" and "{total}" are replaced. */
+        position: text,
+        /** "{alt}" is replaced; accessible name of a gallery thumbnail. */
+        open: text,
+      }),
+    }),
+    notFound: z.object({
+      metaTitle: text,
+      label: text,
+      title: text,
+      body: text,
+      home: text,
+      projects: text,
     }),
     experience: z.object({
       showMore: text,
