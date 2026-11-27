@@ -29,7 +29,7 @@
   --text: #141518;
   --muted: #5e636b;
 
-  --accent: #4d7c0f;
+  --accent: #4a780e;
   --accent-ink: #ffffff;
 }
 
@@ -39,7 +39,7 @@
   --accent-ink: #0a0b0d;
 }
 :root.light[data-accent="lime"] {
-  --accent: #4d7c0f;
+  --accent: #4a780e;
   --accent-ink: #ffffff;
 }
 
