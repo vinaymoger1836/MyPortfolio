@@ -1,0 +1,54 @@
+/*
+ * Design tokens: "Engineer's workbench, after dark" (handoff §4).
+ * Dark is the default (also used before JS runs and when JS is off).
+ * next-themes sets `.dark` / `.light` on <html>; the accent preset comes
+ * from `site.ts` via `data-accent` on <html>.
+ */
+
+:root,
+.dark {
+  color-scheme: dark;
+  --bg: #0a0b0d;
+  --surface: #121418;
+  --surface-2: #1a1d23;
+  --border: #262a31;
+  --text: #ecedee;
+  --muted: #8a9099;
+
+  /* Fallback accent (lime) if no preset attribute is present */
+  --accent: #c6f135;
+  --accent-ink: #0a0b0d;
+}
+
+.light {
+  color-scheme: light;
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --surface-2: #f2f1ec;
+  --border: #e4e2da;
+  --text: #141518;
+  --muted: #5e636b;
+
+  --accent: #4d7c0f;
+  --accent-ink: #ffffff;
+}
+
+/* Accent presets: lime */
+:root[data-accent="lime"] {
+  --accent: #c6f135;
+  --accent-ink: #0a0b0d;
+}
+:root.light[data-accent="lime"] {
+  --accent: #4d7c0f;
+  --accent-ink: #ffffff;
+}
+
+/* Accent presets: violet (solid accent only, no gradients) */
+:root[data-accent="violet"] {
+  --accent: #a78bfa;
+  --accent-ink: #0a0b0d;
+}
+:root.light[data-accent="violet"] {
+  --accent: #6d28d9;
+  --accent-ink: #ffffff;
+}

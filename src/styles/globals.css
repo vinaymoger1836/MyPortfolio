@@ -1,0 +1,66 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Theme variants driven by the class next-themes puts on <html>.
+   Without JS there is no class, so the dark tokens and un-prefixed
+   utilities apply; `light:` styles only kick in once `.light` is set. */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 1.125rem; /* 18px */
+    }
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
