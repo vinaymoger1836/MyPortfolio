@@ -74,10 +74,11 @@ export function SmoothScroll() {
       document.addEventListener("click", onClick);
     };
 
+    // Safari has no requestIdleCallback.
     const idle = (cb: () => void) =>
-      "requestIdleCallback" in window
+      typeof window.requestIdleCallback === "function"
         ? window.requestIdleCallback(cb, { timeout: 2000 })
-        : window.setTimeout(cb, 200);
+        : setTimeout(cb, 200);
     const schedule = () => idle(() => void start());
 
     reduceQuery.addEventListener("change", onReduceChange);

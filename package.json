@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
+    "size": "node scripts/size.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {
