@@ -3,10 +3,9 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/sections/Footer";
 import { CaseStudy } from "@/components/sections/CaseStudy";
 import { SiteHeader } from "@/components/ui/SiteHeader";
-import { profile } from "@/content/profile";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { getProject, projects } from "@/content/projects";
-import { site } from "@/content/site";
-import { fill } from "@/lib/utils";
+import { projectJsonLd, projectMetadata } from "@/lib/seo";
 
 // Every slug is prerendered at build; anything else is the custom 404.
 export const dynamicParams = false;
@@ -21,24 +20,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  const title = fill(site.ui.caseStudy.metaTitle, {
-    title: project.title,
-    name: profile.name,
-  });
-  const url = `/projects/${project.slug}`;
-  return {
-    title,
-    description: project.tagline,
-    alternates: { canonical: url },
-    openGraph: {
-      type: "article",
-      title,
-      description: project.tagline,
-      url,
-      siteName: site.title,
-    },
-    twitter: { card: "summary_large_image", title, description: project.tagline },
-  };
+  return projectMetadata(project);
 }
 
 export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
@@ -53,6 +35,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         <CaseStudy project={project} />
       </main>
       <Footer />
+      <JsonLd data={projectJsonLd(project)} />
     </>
   );
 }

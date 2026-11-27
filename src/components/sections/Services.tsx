@@ -62,7 +62,12 @@ export function Services() {
                       </li>
                     ))}
                   </ul>
-                  <ButtonLink href="#contact" variant="outline" aria-describedby={titleId}>
+                  <ButtonLink
+                    href="#contact"
+                    variant="outline"
+                    aria-describedby={titleId}
+                    data-contact-service={service.title}
+                  >
                     {ui.cta}
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </ButtonLink>

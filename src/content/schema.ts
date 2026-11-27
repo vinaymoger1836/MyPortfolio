@@ -490,9 +490,28 @@ export const siteSchema = z.object({
         email: text,
         message: text,
       }),
-      /** "{name}" and "{type}" are replaced in the mailto subject. */
+      /** "{name}" and "{type}" are replaced in the email subject. */
       mailSubject: text,
       mailtoNote: text,
+      /** Shown under the submit button when the form posts to Web3Forms. */
+      sendNote: text,
+      service: text,
+      serviceAny: text,
+      sending: text,
+      successTitle: text,
+      successBody: text,
+      sendAnother: text,
+      /** Shown when sending fails; followed by the API's message, if any. */
+      errorTitle: text,
+      errorFallback: text,
+      /** "From" name on the notification email; "{name}" is the owner's name. */
+      fromName: text,
+      /** Accessible name of the hidden spam-trap field. */
+      honeypot: text,
+    }),
+    seo: z.object({
+      /** Home share-image alt; "{name}" and "{role}" are replaced. */
+      homeOgAlt: text,
     }),
     footer: z.object({
       builtWith: text,

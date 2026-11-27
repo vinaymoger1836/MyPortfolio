@@ -600,6 +600,40 @@ dialog.lightbox::backdrop {
   animation: fade-in 250ms var(--ease-out);
 }
 
+/* --- Contact ------------------------------------------------------------- */
+/* The service picker shows only for Freelance (works without JS). */
+.contact-service {
+  display: none;
+}
+.contact-form:has(input[name="type"][value="freelance"]:checked) .contact-service {
+  display: block;
+}
+@keyframes success-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+.success-pop {
+  animation: success-pop 500ms var(--ease-out) both;
+}
+.form-success > :not(.success-pop) {
+  animation: hero-in 500ms var(--ease-out) 120ms both;
+}
+
+/* --- Toast ---------------------------------------------------------------- */
+.toast-card {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+.toast-card[data-open] {
+  opacity: 1;
+  transform: none;
+}
+
 /* =====================================================================
    Reduced motion: nothing moves. Reveals, the hero sequence and the menu
    keep a plain opacity fade; everything else is static.
@@ -622,9 +656,15 @@ dialog.lightbox::backdrop {
   }
   .hero-in,
   .hero-word,
-  #mobile-menu:popover-open .menu-item {
+  #mobile-menu:popover-open .menu-item,
+  .success-pop,
+  .form-success > * {
     animation-name: fade-in !important;
     animation-duration: 400ms !important;
+  }
+  .toast-card {
+    transform: none !important;
+    transition: opacity 200ms var(--ease-out) !important;
   }
 
   /* Off: rotator (static list instead), marquee, spotlights, tilt, lifts. */

@@ -80,7 +80,7 @@ export default function Lightbox({
       data-lenis-prevent=""
       onKeyDown={onKeyDown}
       onClose={onClose}
-      className="lightbox m-0 h-dvh max-h-none w-full max-w-none bg-bg/95 p-0 text-text backdrop:bg-black/60"
+      className="lightbox m-0 h-dvh max-h-none w-full max-w-none bg-bg p-0 text-text backdrop:bg-black/60"
     >
       <div className="flex h-full flex-col">
         <div className="container-page flex h-16 shrink-0 items-center justify-between gap-4">

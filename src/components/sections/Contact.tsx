@@ -1,5 +1,6 @@
 import { Mail } from "lucide-react";
 import { profile } from "@/content/profile";
+import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { Section } from "@/components/ui/Section";
 import { SocialLinks } from "@/components/ui/SocialLinks";
@@ -37,7 +38,13 @@ export function Contact() {
         </div>
 
         <div className="lg:col-span-7">
-          <ContactForm email={profile.email} labels={ui} />
+          <ContactForm
+            email={profile.email}
+            ownerName={profile.name}
+            labels={ui}
+            accessKey={site.contact.provider === "web3forms" ? site.contact.key : undefined}
+            services={services.map((s) => s.title)}
+          />
         </div>
       </div>
     </Section>

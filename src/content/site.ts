@@ -1,6 +1,8 @@
 import { profile } from "./profile";
 import { defineContent, siteSchema } from "./schema";
 
+const web3formsKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim() || undefined;
+
 // Site-wide settings and all interface microcopy (components hold no strings).
 export const site = defineContent(
   siteSchema,
@@ -10,8 +12,11 @@ export const site = defineContent(
     description:
       "Software Developer in Bengaluru. I build Python backends and GenAI systems (RAG, agents and integrations) that hold up in production.",
     accent: "lime",
-    // P4 switches this to Web3Forms (key from NEXT_PUBLIC_WEB3FORMS_KEY); mailto until then.
-    contact: { provider: "mailto" },
+    // Web3Forms when NEXT_PUBLIC_WEB3FORMS_KEY is set at build (the key is public
+    // by design); otherwise the form opens a prefilled email.
+    contact: web3formsKey
+      ? { provider: "web3forms", key: web3formsKey }
+      : { provider: "mailto" },
     ui: {
       skipToContent: "Skip to content",
       themeToggle: "Toggle light and dark theme",
@@ -137,6 +142,20 @@ export const site = defineContent(
         },
         mailSubject: "{type} enquiry from {name}",
         mailtoNote: "Sending opens your email app with the message filled in.",
+        sendNote: "Your message comes straight to my inbox.",
+        service: "Service",
+        serviceAny: "Not sure yet",
+        sending: "Sending…",
+        successTitle: "Message sent.",
+        successBody: "Thanks for writing. I'll reply to the email address you gave.",
+        sendAnother: "Send another message",
+        errorTitle: "Your message couldn't be sent.",
+        errorFallback: "Email me directly instead",
+        fromName: "{name} · Portfolio",
+        honeypot: "Leave this box unchecked",
+      },
+      seo: {
+        homeOgAlt: "{name}, {role}",
       },
       footer: {
         builtWith: "Built with Next.js · hosted on Vercel",

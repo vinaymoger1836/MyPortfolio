@@ -8,7 +8,11 @@ import { Projects } from "@/components/sections/Projects";
 import { Services } from "@/components/sections/Services";
 import { Skills } from "@/components/sections/Skills";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { SiteHeader } from "@/components/ui/SiteHeader";
+import { homeMetadata, personJsonLd } from "@/lib/seo";
+
+export const metadata = homeMetadata;
 
 // Sections in handoff §3 order. Each one hides itself when its content is empty.
 export default function Home() {
@@ -27,6 +31,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <JsonLd data={personJsonLd()} />
     </>
   );
 }

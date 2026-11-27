@@ -1,3 +1,4 @@
+import { ImageResponse } from "next/og";
 import type { Accent } from "@/content/schema";
 
 /**
@@ -57,4 +58,37 @@ export async function ogFonts(text: string): Promise<OgFont[]> {
   if (body) fonts.push({ name: "Geist", data: body, weight: 400, style: "normal" });
   if (mono) fonts.push({ name: "Geist Mono", data: mono, weight: 400, style: "normal" });
   return fonts;
+}
+
+/**
+ * The "VM" monogram tile used for the favicon set, in the site's accent:
+ * dark tile, accent outline, accent letters. `size` is the square edge in px.
+ */
+export async function monogramIcon(size: number, accent: string, letters: string) {
+  const fonts = (await ogFonts(letters)).filter((f) => f.name === "Geist Mono");
+  const edge = Math.max(2, Math.round(size / 45));
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: ogTokens.bg,
+          borderRadius: size * 0.22,
+          border: `${edge}px solid ${accent}`,
+          color: accent,
+          fontFamily: "Geist Mono",
+          fontSize: size * 0.4,
+          fontWeight: 400,
+          letterSpacing: size * 0.01,
+        }}
+      >
+        {letters}
+      </div>
+    ),
+    { width: size, height: size, fonts },
+  );
 }

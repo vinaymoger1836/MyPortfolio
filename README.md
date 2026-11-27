@@ -6,7 +6,7 @@ The personal portfolio of **Vinayakumar Moger**, a software developer in Bengalu
 
 I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Engineer) and **freelance projects**. Reach me at vinaymoger1836@gmail.com or through the contact form on the site.
 
-> **Status:** Phase 2. Every home-page section renders from the content files in `src/content/`, with scroll reveals, hover effects and smooth scrolling (all off or reduced to fades under reduced motion). Case-study pages land in Phase 3 and the contact form wiring in Phase 4 (until then the form opens a prefilled email).
+> **Status:** Phase 4. Every home-page section renders from the content files in `src/content/`, with scroll reveals, hover effects and smooth scrolling (all off or reduced to fades under reduced motion). Each project has a prerendered case study at `/projects/<slug>`, with a gallery lightbox, a cover morph from the card (View Transitions) and its own share image. The contact form sends through Web3Forms (or opens a prefilled email when no key is set), and the site has a sitemap, robots.txt, JSON-LD, share images, Vercel Web Analytics and Speed Insights, and axe + Lighthouse CI checks.
 
 ---
 
@@ -47,12 +47,13 @@ pnpm dev                        # http://localhost:3000
 | `pnpm build` | Production build (fails if content is invalid) |
 | `pnpm start` | Serve the production build on port 3000 |
 | `pnpm lint` / `pnpm typecheck` | Lint and type-check |
-| `pnpm size` | Home-page JS (gzipped) against the budget; fails if over (run `pnpm build` first) |
-| `pnpm test:e2e` | Playwright smoke tests against the production build (run `pnpm build` first) |
+| `pnpm size` | JS (gzipped) of the home page and a case study against the budget; fails if over (run `pnpm build` first) |
+| `pnpm test:e2e` | Playwright smoke, SEO and axe accessibility tests against the production build (run `pnpm build` first) |
+| `pnpm lhci` | Lighthouse CI (mobile, 3 runs) on `/` and a case study: ≥ 95 in all four categories, TBT ≤ 150 ms (run `pnpm build` first; needs port 3000 free) |
 
 Before the first e2e run, download the test browser once: `pnpm exec playwright install chromium`.
 
-Without a Web3Forms key, the contact form falls back to opening an email.
+Without a Web3Forms key, the contact form falls back to opening an email. The key is public by design (it only lets people send *you* mail), so it's fine in the browser bundle; it still lives in an env var so it isn't hard-coded in the repo. The e2e tests mock Web3Forms and never send real mail.
 
 ## Updating content
 
@@ -81,7 +82,7 @@ Every content file is validated at build time, so a typo or a missing `alt` text
 
 ## Deploy
 
-The repo is connected to Vercel. A push to `main` deploys to production, and each pull request gets a preview URL. Set `NEXT_PUBLIC_WEB3FORMS_KEY` under **Vercel → Project → Settings → Environment Variables**, along with `ENABLE_EXPERIMENTAL_COREPACK=1` so Vercel builds with the pnpm version pinned in `package.json`.
+The repo is connected to Vercel. A push to `main` deploys to production, and each pull request gets a preview URL. Set `NEXT_PUBLIC_WEB3FORMS_KEY` (Production and Preview) under **Vercel → Project → Settings → Environment Variables**, along with `ENABLE_EXPERIMENTAL_COREPACK=1` so Vercel builds with the pnpm version pinned in `package.json`.
 
 ## Project structure
 
