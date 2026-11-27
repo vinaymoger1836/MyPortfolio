@@ -72,8 +72,7 @@ const kb = (n) => `${n.toFixed(1)} KB`;
 const mark = (ok) => (ok ? "ok  " : "OVER");
 
 const table = (title, list) => {
-  console.log(`
-${title}`);
+  console.log(`\n${title}`);
   if (list.length === 0) console.log("  (none)");
   for (const r of list) console.log(`  ${kb(r.kb).padStart(9)}  ${r.file}`);
 };
@@ -111,8 +110,7 @@ for (const page of PAGES) {
   const okLazy = lazyTotal <= BUDGET.lazy;
   over ||= !okInitial || !okLazy;
 
-  console.log(`
-=== ${page.name}: JS (gzip)`);
+  console.log(`\n=== ${page.name}: JS (gzip)`);
   table("Initial chunks", initialRows);
   table("Lazy chunks", lazyRows);
   console.log(`
@@ -123,7 +121,6 @@ Lazy total         ${kb(lazyTotal).padStart(8)}  / ${BUDGET.lazy} KB  ${mark(okL
 }
 
 if (over) {
-  console.error("
-JS budget exceeded.");
+  console.error("\nJS budget exceeded.");
   process.exit(1);
 }
