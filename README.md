@@ -6,6 +6,8 @@ The personal portfolio of **Vinayakumar Moger**, a software developer in Bengalu
 
 I'm open to **full-time roles** (Full Stack, Backend in Python, or GenAI Engineer) and **freelance projects**. Reach me at vinaymoger1836@gmail.com or through the contact form on the site.
 
+> **Status:** Phase 0. The live URL shows a placeholder page (name + "coming soon", dark/light toggle) while the sections below are built. The content files under `src/content/` are filled in from Phase 1.
+
 ---
 
 ## What's on the site
@@ -31,7 +33,7 @@ Animations respect `prefers-reduced-motion`, and the site stays readable with Ja
 
 ## Run locally
 
-Requires Node 22+ and pnpm.
+Requires Node 22+ and pnpm 11 (`corepack enable` picks up the pinned version).
 
 ```bash
 pnpm install
@@ -43,8 +45,11 @@ pnpm dev                        # http://localhost:3000
 |---|---|
 | `pnpm dev` | Start the dev server |
 | `pnpm build` | Production build (fails if content is invalid) |
+| `pnpm start` | Serve the production build on port 3000 |
 | `pnpm lint` / `pnpm typecheck` | Lint and type-check |
-| `pnpm test:e2e` | Playwright smoke tests |
+| `pnpm test:e2e` | Playwright smoke tests against the production build (run `pnpm build` first) |
+
+Before the first e2e run, download the test browser once: `pnpm exec playwright install chromium`.
 
 Without a Web3Forms key, the contact form falls back to opening an email.
 
@@ -73,7 +78,7 @@ Every content file is validated at build time, so a typo or a missing `alt` text
 
 ## Deploy
 
-The repo is connected to Vercel. A push to `main` deploys to production, and each pull request gets a preview URL. Set `NEXT_PUBLIC_WEB3FORMS_KEY` under **Vercel → Project → Settings → Environment Variables**. See `docs/deploy.md` for the full setup.
+The repo is connected to Vercel. A push to `main` deploys to production, and each pull request gets a preview URL. Set `NEXT_PUBLIC_WEB3FORMS_KEY` under **Vercel → Project → Settings → Environment Variables**, along with `ENABLE_EXPERIMENTAL_COREPACK=1` so Vercel builds with the pnpm version pinned in `package.json`.
 
 ## Project structure
 
@@ -83,7 +88,7 @@ src/components/   sections/, ui/, motion/
 src/content/      all site content (edit here)
 src/styles/       design tokens and global styles
 public/           images, resume.pdf, favicons
-docs/             content source, deploy guide, phase notes
+docs/             private working notes (local only, not in the repo)
 tests/            Playwright smoke tests
 ```
 
